@@ -15,7 +15,7 @@ function log = get_morph_parameters(tck_file, vol_file, varargin)
 % 
 % vox_size:     voxel size in one dimension - volumetric measurements occur
 %               on a voxel grid with voxels of that size. Default: 0.625 mm
-% temp_folder:  directory to create a temporary folder in. Default: same as vol_file)
+% temp_folder:  directory to create a temporary folder in. Default: same as vol_file
 % verbose:      show mrtrix logs - does not need a value. Default: off
 %
 % Uses MD-MRI scripts to read and write nifti files:
