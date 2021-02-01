@@ -29,6 +29,7 @@ function [out_file1, out_file2] = get_tract_endpoints(tck_file, temp_folder, dgn
     c = [mean(endpts1, 1); mean(endpts2, 1)];
     all_points = [endpts1(:,1:3); endpts2(:,1:3)];
     attempts = 0;
+    rng(1); %for reproducibility
     
     %loop through kmeans until hopefully successful - has always worked so
     %far but should ideally be rewritten properly
