@@ -30,18 +30,18 @@ function log = get_morph_parameters(tck_file, vol_file, varargin)
     %% get the masks
     
     %get the logical mask
-    [tract_mask, vdims] = get_volume_mask(tck_file, vol_file, inp.vox_size, inp.temp_folder, inp.dgn);
+    [tract_mask, vdims] = get_volume_mask(tck_file, vol_file, inp.vox_size, inp.temp_folder, inp.verbose);
     
     %get the endpoint masks
-    [endpts1_file, endpts2_file] = get_tract_endpoints(tck_file, inp.temp_folder, inp.dgn);
+    [endpts1_file, endpts2_file] = get_tract_endpoints(tck_file, inp.temp_folder, inp.verbose);
     
     if isnan(endpts1_file)
         disp('an error has occurred')
         return
     end
         
-    end1 = get_volume_mask(endpts1_file, vol_file, inp.vox_size, inp.temp_folder, inp.dgn, 1);
-    end2 = get_volume_mask(endpts2_file, vol_file, inp.vox_size, inp.temp_folder, inp.dgn, 1);
+    end1 = get_volume_mask(endpts1_file, vol_file, inp.vox_size, inp.temp_folder, inp.verbose, 1);
+    end2 = get_volume_mask(endpts2_file, vol_file, inp.vox_size, inp.temp_folder, inp.verbose, 1);
     
     %% produce parameters
     
