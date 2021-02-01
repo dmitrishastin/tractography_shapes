@@ -3,7 +3,7 @@ function log = get_morph_parameters(tck_file, vol_file, varargin)
 % Extract morphological parameters for a tract
 %
 % Based on the interpretation of the following paper for 
-% Brainhack 2021 Micro2Macro, please cite: 
+% Brainhack 2020 Micro2Macro, please cite: 
 %
 % Shape analysis of the human association pathways.
 % Yeh, Fang-Cheng. Neuroimage 223 (2020): 117329.
