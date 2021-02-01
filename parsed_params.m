@@ -3,7 +3,7 @@ classdef parsed_params
    properties %defaults       
        
         vox_size    = 0.625;
-        dgn         = 0;
+        verbose     = 0;
         temp_folder
         old_dir
     
@@ -34,7 +34,7 @@ classdef parsed_params
                         skip = 1;                                                                     
 
                     % those with no 'value' pair (booleans)
-                    case 'dgn'
+                    case 'verbose'
                         eval(['this.' parsed_input{i} ' = true;']);
 
                     otherwise
