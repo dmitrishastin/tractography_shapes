@@ -45,10 +45,7 @@ function [outvol] = draw_boundaries(vol, conn, bmode)
                 d = i+a; e = j+b; f = k+c;
 
                 %make sure the borders of the volume are not exceeded
-                if d >= 1 && d <= size(vol, 1)
-                if e >= 1 && e <= size(vol, 2)
-                if f >= 1 && f <= size(vol, 3)                         
-
+                if d >= 1 && d <= size(vol, 1) && e >= 1 && e <= size(vol, 2) && f >= 1 && f <= size(vol, 3)
                     if ~vol(d, e, f)
                         if bmode == 1
                             outvol(d, e, f) = 1;
@@ -58,9 +55,10 @@ function [outvol] = draw_boundaries(vol, conn, bmode)
                             error('wrong arguments')
                         end
                     end
-                end
-                end
-                end
+                %otherwise include voxels adjacent to the margins into the boundary    
+                else
+                    outvol(i, j, k) = 1;
+                end                
             end
         end
         end
