@@ -97,8 +97,8 @@ function log = get_morph_parameters(tck_file, vol_file, varargin)
     [~, enddist{1}] = dsearchn(centroid{1}, endcds{1});
     [~, enddist{2}] = dsearchn(centroid{2}, endcds{2});
     
-    rads(1) = 1.5 * mean(enddist{1});
-    rads(2) = 1.5 * mean(enddist{2});
+    rads(1) = 1.5 * mean(enddist{1}) * inp.vox_size;
+    rads(2) = 1.5 * mean(enddist{2}) * inp.vox_size;
     
     %surface irregularity
     irreg_surf(1) = pi * rads(1) ^ 2 / esa(1);
