@@ -8,7 +8,7 @@ function [out_file1, out_file2] = get_tract_endpoints(tck_file, temp_folder, dgn
     mrtrix_T = read_mrtrix_tracks(tck_file); 
     
     %check for empty files
-    if ~mrtrix_T.count
+    if isempty(mrtrix_T.data) || length(mrtrix_T.data) < 2
         [out_file1, out_file2] = deal(NaN);
         return
     end    

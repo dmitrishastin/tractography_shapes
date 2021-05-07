@@ -25,7 +25,7 @@ function log = get_morph_parameters(tck_file, vol_file, varargin)
 
     %% prepare
         
-    inp = parsed_params(vol_file, varargin); log = {};
+    inp = parsed_params(vol_file, varargin); 
     
     %% get the masks
     
@@ -36,7 +36,7 @@ function log = get_morph_parameters(tck_file, vol_file, varargin)
     [endpts1_file, endpts2_file] = get_tract_endpoints(tck_file, inp.temp_folder, inp.verbose);
     
     if isnan(endpts1_file)
-        disp('an error has occurred')
+        log = terminate_run(inp);
         return
     end
         
@@ -131,4 +131,30 @@ function log = get_morph_parameters(tck_file, vol_file, varargin)
     cd(inp.old_dir);
     rmdir(inp.temp_folder, 's');
     
+end
+
+function log = terminate_run(inp)
+
+    disp('an error has occurred')
+    
+    log =   { 'number of streamlines:'      0;
+            'mean length(mm):'              0;
+            'span(mm):'                     0;
+%                 'span from centroids:'          0;
+            'diameter(mm):'                 0;
+            'radius of end area1(mm):'      0;
+            'radius of end area2(mm):'      0;
+            'surface area(mm^2):'           0;
+            'end area 1(mm^2):'             0;
+            'end area 2(mm^2):'             0;
+            'volume(mm^3):'                 0;
+            'curl:'                         0;
+            'elongation:'                   0;
+            'irregularity:'                 0;
+            'irregularity of end area1:'    0;
+            'irregularity of end area2:'    0};
+        
+    cd(inp.old_dir);
+    rmdir(inp.temp_folder, 's');
+
 end
