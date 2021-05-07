@@ -22,7 +22,7 @@ function [mask,vdims] = get_volume_mask(tck_file, vol_file, usvox, temp_folder, 
     mdm_nii_write(uint8(nii), mvol_file, hdr);   
     
     %upsample the volume    
-    command = ['LD_LIBRARY_PATH= mrresize -voxel ' usvox ' ' mvol_file ' ' usvol_file];
+    command = ['LD_LIBRARY_PATH= mrgrid ' mvol_file ' regrid -voxel ' usvox ' ' usvol_file];
     if dgn
         system(command);
     else

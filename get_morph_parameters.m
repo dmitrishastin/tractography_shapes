@@ -29,10 +29,10 @@ function log = get_morph_parameters(tck_file, vol_file, varargin)
     
     %% get the masks
     
-    %get the logical mask
+    % get the logical mask
     [tract_mask, vdims] = get_volume_mask(tck_file, vol_file, inp.vox_size, inp.temp_folder, inp.verbose);
     
-    %get the endpoint masks
+    % get the endpoint masks
     [endpts1_file, endpts2_file] = get_tract_endpoints(tck_file, inp.temp_folder, inp.verbose);
     
     if isnan(endpts1_file)
@@ -45,62 +45,65 @@ function log = get_morph_parameters(tck_file, vol_file, varargin)
     
     %% produce parameters
     
-    %length
+    % length
     [len, nsl] = get_tract_length(tck_file);
     
-    %span
+    % span
     span = get_tract_span(tck_file);
     
-    %curl
+    % curl
     curl = len / span;
     
-    %volume    
+    % volume    
     vol = sum(tract_mask(:)) * inp.vox_size ^ 3;
     
-    %diameter
+    % diameter
     diam = 2 * sqrt(vol / (pi * len));
     
-    %elongation
+    % elongation
     elon = len / diam;
     
-    %surface area
+    % surface area
     surf = logical(draw_boundaries(tract_mask, 18, -1));
     surf_area = sum(surf(:)) * inp.vox_size ^ 2;
     
-    %irregularity
+    % irregularity
     irreg_vol = surf_area / (pi * diam * len);
     
     %% deal with the two ends
     
-    %get some auxilliary metrics and order the ends
+    % get some auxilliary metrics and order the ends
     endcds{1} = vol2cds(end1);
     endcds{2} = vol2cds(end2);
     
     centroid{1} = mean(endcds{1},1);
     centroid{2} = mean(endcds{2},1);
     
-    %find the dimension with the biggest value difference
+    % find the dimension with the biggest value difference
     [~, C] = max(abs(diff([centroid{1}; centroid{2}])));
     
-    %define the end with the greater value in that dimension as the first end
+    % define the end with the greater value in that dimension as the first end
     if centroid{2}(C) > centroid{1}(C)
         temp = end2; end2 = end1; end1 = temp;
         endcds = flip(endcds);
         centroid = flip(centroid);
     end
     
-    %end surface area
+    % end surface area
     esa(1) = sum(end1(:)) * inp.vox_size ^ 2;
     esa(2) = sum(end2(:)) * inp.vox_size ^ 2;
     
-    %radius    
+    % radius    
     [~, enddist{1}] = dsearchn(centroid{1}, endcds{1});
     [~, enddist{2}] = dsearchn(centroid{2}, endcds{2});
+    
+    % diagnostic - disabled
+    % cent_dist = sqrt(sum(diff(reshape(cell2mat(centroid), [3 2])').^2));
     
     rads(1) = 1.5 * mean(enddist{1}) * inp.vox_size;
     rads(2) = 1.5 * mean(enddist{2}) * inp.vox_size;
     
-    %surface irregularity
+    % surface irregularity
     irreg_surf(1) = pi * rads(1) ^ 2 / esa(1);
     irreg_surf(2) = pi * rads(2) ^ 2 / esa(2);    
     
@@ -109,6 +112,7 @@ function log = get_morph_parameters(tck_file, vol_file, varargin)
     log =     { 'number of streamlines:'        nsl;
                 'mean length(mm):'              len;
                 'span(mm):'                     span;
+%                 'span from centroids:'          cent_dist;
                 'diameter(mm):'                 diam;
                 'radius of end area1(mm):'      rads(1);
                 'radius of end area2(mm):'      rads(2);
@@ -125,6 +129,6 @@ function log = get_morph_parameters(tck_file, vol_file, varargin)
     %% clean up
     
     cd(inp.old_dir);
-    system(['rm ' inp.temp_folder ' -R']);
+    rmdir(inp.temp_folder, 's');
     
 end
